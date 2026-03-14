@@ -13,10 +13,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip build-essential git ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev libgstreamer1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good autoconf libtool pkg-config cmake
+          pip3 install buildozer cython
+
       - name: Build APK
-        uses: mobile-dev-inc/action-buildozer@v1.3.0
-        with:
-          command: android debug
+        run: |
+          buildozer android debug 2>&1
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
